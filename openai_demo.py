@@ -109,15 +109,17 @@ prompt = st.text_area(
     )
 
 prompt_enriched = (
-    f"{company_description}\n\n" +
-    f"{team_description}\n\n" +
-    f"{role_description}\n\n" +
-    f"{skills_keywords}\n\n" +
-    f"{requirement_keywords}\n\n" +
-    f"Using the above, generate in Markdown {prompt}. The sections are: {sections}."
+    f"{company} company: {company_description}\n\n" +
+    f"{team} team: {team_description}\n\n" +
+    f"{role} role: {role_description}\n\n" +
+    f"needed skills: {skills_keywords}\n\n" +
+    f"job requirements: {requirement_keywords}\n\n" +
+    f"Using the provided information, generate in Markdown {prompt}. The sections of the job description are: {sections}."
 )
 
 job_description = call_the_model(prompt_enriched)
+
+
 
 st.markdown(job_description)
 
@@ -127,5 +129,4 @@ open_ended_question = st.text_input(
     "Enter an open ended question here", 
     value="What is a list of technical interview questions, that relate to the job requirements?"
     )
-
 st.write(call_the_model(job_description + "\n\n Q: " + open_ended_question + "\nA:"))
