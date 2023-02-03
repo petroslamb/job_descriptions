@@ -66,34 +66,18 @@ with st.expander("Edit skills and requirements"):
     skills =st.text_area(
         "Edit Skills: ", 
         value=call_the_model(
-            f"Generate a list of skills for a {role} ({role_description}) in {team} team ({team_description}), at company {company} ({company_description}), to be used in the Job description later:"
+            f"Generate a list of comma separated keywords of skills for a {role} ({role_description}) in {team} team ({team_description}), at company {company} ({company_description}), to be used in the Job description:"
         ).lstrip(),
         height=200
     )
 
-    skills_keywords = st.text_area(
-        "Derived keywords:",
-        call_the_model(
-        f"Generate a list of comma separated keywords from the skills ({skills}):"
-        ).lstrip()
-    )
-
-
     requirements = st.text_area(
         "Edit Requirements: ",
         call_the_model(
-            f"Generate a list of comma separated requirements for a {role} ({role_description}) in {team} team ({team_description}), at company {company} ({company_description}), with skills ({skills}) to be used in the Job description later:"
+            f"Generate a list of comma separated keywords of requirements for a {role} ({role_description}) in {team} team ({team_description}), at company {company} ({company_description}), with skills ({skills}) to be used in the Job description later:"
             ).lstrip(),
         height=200
         )
-    requirement_keywords = st.text_area(
-        "Derived keywords:",
-        call_the_model(
-            f"Generate a list of comma separated keywords from the requirements ({requirements}): "
-            ).lstrip()
-        )
-
-
 
 
 st.markdown("### The Job Description :memo:")
@@ -115,12 +99,17 @@ if job_button:
         )
 
     prompt_enriched = (
-        f"{company} company: {company_description}\n\n" +
-        f"{team} team: {team_description}\n\n" +
-        f"{role} role: {role_description}\n\n" +
-        f"needed skills: {skills_keywords}\n\n" +
-        f"job requirements: {requirement_keywords}\n\n" +
-        f"Using the provided information, generate in Markdown {prompt}. The sections of the job description are: {sections}."
+        f"Company: {company}\n\n" +
+        f"Company description: {company_description}\n\n" +
+        f"Team: {team}\n\n" +
+        f"Team description: {team_description}\n\n" +
+        f"Role: {role}\n\n" +
+        f"Role description: {role_description}\n\n" +
+        f"Skills keywords: {skills}\n\n" +
+        f"Job requirements: {requirements}\n\n" +
+        f"Using the above provided information, generate in Markdown {prompt}. " + 
+        f"Use the skills and requirements keywords to generate the relevant sections of the job description." +
+        f"The sections of the job description are: {sections}."
     )
 
     job_description = call_the_model(prompt_enriched)
