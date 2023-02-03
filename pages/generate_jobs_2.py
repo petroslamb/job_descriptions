@@ -60,13 +60,13 @@ with st.expander("Edit descriptions"):
     )
 
 
-st.markdown("### Skills and Requirements :clipboard:")
+st.markdown("### Responsibilities and Requirements :clipboard:")
 
-with st.expander("Edit skills and requirements"):
-    skills =st.text_area(
-        "Edit Skills: ", 
+with st.expander("Edit responsibilities and requirements"):
+    responsibilities =st.text_area(
+        "Edit responsibilities: ", 
         value=call_the_model(
-            f"Generate a list of comma separated keywords of skills for a {role} ({role_description}) in {team} team ({team_description}), at company {company} ({company_description}), to be used in the Job description:"
+            f"Generate a list of comma separated keywords of responsibilities for a {role} ({role_description}) in {team} team ({team_description}), at company {company} ({company_description}), to be used in the Job description:"
         ).lstrip(),
         height=200
     )
@@ -74,7 +74,7 @@ with st.expander("Edit skills and requirements"):
     requirements = st.text_area(
         "Edit Requirements: ",
         call_the_model(
-            f"Generate a list of comma separated keywords of requirements for a {role} ({role_description}) in {team} team ({team_description}), at company {company} ({company_description}), with skills ({skills}) to be used in the Job description later:"
+            f"Generate a list of education, technical and soft requirements for a {role} ({role_description}) in {team} team ({team_description}), at company {company} ({company_description}), with responsibilities ({responsibilities}) to be used in the Job description later:"
             ).lstrip(),
         height=200
         )
@@ -105,14 +105,14 @@ if job_button:
         f"Team description: {team_description}\n\n" +
         f"Role: {role}\n\n" +
         f"Role description: {role_description}\n\n" +
-        f"Skills keywords: {skills}\n\n" +
+        f"Responsibilities keywords: {responsibilities}\n\n" +
         f"Job requirements: {requirements}\n\n" +
         f"Using the above provided information, generate in Markdown {prompt}. " + 
-        f"Use the skills and requirements keywords to generate the relevant sections of the job description." +
+        f"Use the Responsibilities and requirements keywords to generate the relevant sections of the job description."
         f"The sections of the job description are: {sections}."
     )
 
-    job_description = call_the_model(prompt_enriched)
+    job_description = call_the_model(prompt_enriched, max_tokens=1000)
 
     st.markdown(job_description)
 
